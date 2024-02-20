@@ -69,7 +69,7 @@
                 </td>
                 <td>{{task.priorityLevel}}</td>
                 <td>
-                    <select [(ngModel)]="task.status" class="form-control" id="status" name="status"
+                    <select [(ngModel)]="task.status" class="form-control form-select" id="status" name="status"
                         (change)="onChangeStatus($event,task.id)">
                         <option value="Open">Open</option>
                         <option value="In Progress">In Progress</option>
