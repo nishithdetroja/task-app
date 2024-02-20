@@ -1,0 +1,91 @@
+<div class="d-flex justify-content-between align-items-center">
+    <h4 class="mb-0">Task</h4>
+    <div class="d-flex">
+        <input type="text" class="form-control me-2 ms-2" name="searchString" [(ngModel)]="searchString"
+            placeholder="Search" />
+        <button class="btn btn-primary btn-sm py-0 px-3 me-2" (click)="navigateToDetail(0)">Add</button>
+        <button class="btn btn-primary btn-sm py-0 px-3" (click)="navigateToBoard()">Board</button>
+    </div>
+</div>
+<div class="grid-section table-responsive">
+    <table class="table table-bordered table-sm table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th (click)="onSortData('title','asc')">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            Title
+                        </div>
+                        <div>
+                            <i *ngIf="isCurrentSort('title','asc')" class="fas fa-sort-asc"></i>
+                            <i *ngIf="isCurrentSort('title','desc')" class="fas fa-sort-desc"></i>
+                        </div>
+                    </div>
+                </th>
+                <th>Description</th>
+                <th (click)="onSortData('priorityLevel','asc')">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            Priority Level
+                        </div>
+                        <div>
+                            <i *ngIf="isCurrentSort('priorityLevel','asc')" class="fas fa-sort-asc"></i>
+                            <i *ngIf="isCurrentSort('priorityLevel','desc')" class="fas fa-sort-desc"></i>
+                        </div>
+                    </div>
+                </th>
+                <th (click)="onSortData('status','asc')">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            Status
+                        </div>
+                        <div>
+                            <i *ngIf="isCurrentSort('status','asc')" class="fas fa-sort-asc"></i>
+                            <i *ngIf="isCurrentSort('status','desc')" class="fas fa-sort-desc"></i>
+                        </div>
+                    </div>
+                </th>
+                <th (click)="onSortData('dueDate','asc')">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            Due Date
+                        </div>
+                        <div>
+                            <i *ngIf="isCurrentSort('dueDate','asc')" class="fas fa-sort-asc"></i>
+                            <i *ngIf="isCurrentSort('dueDate','desc')" class="fas fa-sort-desc"></i>
+                        </div>
+                    </div>
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let task of listData | sort: sort.field : sort.type | textFilter: searchString;let i= index">
+                <td>{{i + 1}}</td>
+                <td>{{task.title}}</td>
+                <td>
+                    <p class="mb-0">{{task.description}}</p>
+                </td>
+                <td>{{task.priorityLevel}}</td>
+                <td>
+                    <select [(ngModel)]="task.status" class="form-control" id="status" name="status"
+                        (change)="onChangeStatus($event,task.id)">
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </td>
+                <td>{{task.dueDate}}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm me-2" (click)="navigateToDetail(task.id)">Edit</button>
+                    <button class="btn btn-danger btn-sm me-2" (click)="onDelete(task.id)">Delete</button>
+                    <button class="btn btn-secondary btn-sm me-2" (click)="navigateToView(task.id)">View</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center" *ngIf="(listData | textFilter: searchString).length === 0">
+        No Task Found.
+    </div>
+</div>
